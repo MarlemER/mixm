@@ -1,14 +1,11 @@
 package com.marlem.mixm.exoplayer
-
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.widget.MediaController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.GlideContext
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.Player
@@ -17,31 +14,41 @@ import com.marlem.mixm.R
 import com.marlem.mixm.utilities.Constants.NOTIFICATION_CHANNEL_ID
 import com.marlem.mixm.utilities.Constants.NOTIFICATION_ID
 
-class MusicNotificationManager(private val context: Context,
-                               sessionToken:MediaSessionCompat.Token,
-                                //be called when our notification is created example swiped by user
-                                notificationListener: PlayerNotificationManager.NotificationListener,
-                                private val newSongCallback:()->Unit) {
+class MusicNotificationManager(
+    private val context: Context,
+    sessionToken: MediaSessionCompat.Token,
+    notificationListener: PlayerNotificationManager.NotificationListener,
+    private val newSongCallback: () -> Unit
+) {
 
-    private val notificationManager:PlayerNotificationManager
+    private val notificationManager: PlayerNotificationManager
+
     init {
-        val mediaController = MediaControllerCompat(context,sessionToken)
-        notificationManager = PlayerNotificationManager.createWithNotificationChannel(context,NOTIFICATION_CHANNEL_ID,
-            R.string.notification_channel_name,R.string.notification_channel_description,NOTIFICATION_ID,
-            DescriptionAdapter(mediaController)//for control media and also pass the session token, current playing song,
-            // service connect between vm and music service, pause the player
-            , notificationListener).apply {
-            setSmallIcon(R.drawable.exo_notification_small_icon)
+        val mediaController = MediaControllerCompat(context, sessionToken)
+        notificationManager = PlayerNotificationManager.createWithNotificationChannel(
+            context,
+            NOTIFICATION_CHANNEL_ID,
+            R.string.notification_channel_name,
+            R.string.notification_channel_description,
+            NOTIFICATION_ID,
+            DescriptionAdapter(mediaController),
+            notificationListener
+        ).apply {
+            setSmallIcon(R.drawable.ic_launcher_background)
             setMediaSessionToken(sessionToken)
         }
     }
 
-    fun showNotification(player: Player){
+    fun showNotification(player: Player) {
         notificationManager.setPlayer(player)
     }
 
-    private inner class DescriptionAdapter(private val mediaController:MediaControllerCompat):PlayerNotificationManager.MediaDescriptionAdapter{
+    private inner class DescriptionAdapter(
+        private val mediaController: MediaControllerCompat
+    ) : PlayerNotificationManager.MediaDescriptionAdapter {
+
         override fun getCurrentContentTitle(player: Player): CharSequence {
+            newSongCallback()
             return mediaController.metadata.description.title.toString()
         }
 
@@ -59,7 +66,7 @@ class MusicNotificationManager(private val context: Context,
         ): Bitmap? {
             Glide.with(context).asBitmap()
                 .load(mediaController.metadata.description.iconUri)
-                .into(object:CustomTarget<Bitmap>(){
+                .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
@@ -67,13 +74,14 @@ class MusicNotificationManager(private val context: Context,
                         callback.onBitmap(resource)
                     }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        TODO("Not yet implemented")
-                    }
+                    override fun onLoadCleared(placeholder: Drawable?) = Unit
                 })
             return null
         }
-
-
     }
 }
+
+
+
+
+

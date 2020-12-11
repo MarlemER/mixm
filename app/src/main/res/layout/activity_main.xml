@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/flFragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/vpSong"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -21,7 +21,8 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"/>
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph"/>
     </FrameLayout>
 
     <ImageView
@@ -35,7 +36,7 @@
         android:id="@+id/vpSong"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:background="#3F51B5"
+        android:background="#009688"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivPlayPause"
         app:layout_constraintStart_toEndOf="@+id/ivCurSongImage"/>
@@ -44,7 +45,7 @@
         android:id="@+id/ivPlayPause"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:background="#3F51B5"
+        android:background="#009688"
         android:src="@drawable/exo_controls_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

@@ -3,11 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryDark">#2196F3</item>
+        <item name="colorAccent">#2196F3</item>
     </style>
-    <string name="app_name">SpotifyCloneYT</string>
+    <string name="app_name">Mixapp</string>
     <string name="notification_channel_name">Music Channel</string>
     <string name="notification_channel_description">Shows the currently playing music</string>
 
